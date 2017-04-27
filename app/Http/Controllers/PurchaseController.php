@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Offering;
 use App\Purchase;
+use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
@@ -10,8 +11,9 @@ class PurchaseController extends Controller
     {
         $purchase = Purchase::with(['offering'])->get()->toArray();
         $result = [
-            'purchase' => $purchase,
+            'purchases' => $purchase
         ];
+
         return response()->json($result);
     }
 
@@ -19,7 +21,7 @@ class PurchaseController extends Controller
     {
         $offerings = Offering::get()->toArray();
         $result = [
-            'offering' => $offerings,
+            'offerings' => $offerings,
         ];
         return response()->json($result);
     }
@@ -27,18 +29,15 @@ class PurchaseController extends Controller
     public function save(Request $request)
     {
         $this->validate($request, [
-            'offeringId' => 'required|integer',
+            'offeringID' => 'required|integer',
             'customerName' => 'required',
-            'quanity' => 'required|integer'
+            'quantity' => 'required|integer'
         ]);
-        $requiredFields = ['offeringId', 'customerName', 'quantity'];
-        $savedData = array_only($request, $requiredFields);
         $saveData = new Purchase();
-        $saveData->offeringId = $request->offeringId;
+        $saveData->offeringId = $request->offeringID;
         $saveData->customerName = $request->customerName;
         $saveData->quantity = $request->quantity;
         $saveData->save();
         return response()->json(['result' => 1]);
-
     }
 }

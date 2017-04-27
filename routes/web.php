@@ -22,7 +22,7 @@ Route::get('offerings', [
 
 Route::post('purchases', [
     'as' => 'savePusrchase',
-    'uses' => 'PurchaseController@savePurchase',
+    'uses' => 'PurchaseController@save',
 ]);
 
 Route::get('purchases', [
